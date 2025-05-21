@@ -1,0 +1,102 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:gravity="center">
+
+    <!-- Logo de l'application -->
+    <ImageView
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_marginBottom="32dp"
+        android:contentDescription="@string/app_logo"
+        android:rotation="-360"
+        android:rotationX="-360"
+        android:rotationY="-360"
+        android:src="@drawable/logo_app" />
+
+    <!-- Nom d'utilisateur -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="Nom d'utilisateur"
+        android:textSize="16sp" />
+
+    <EditText
+        android:id="@+id/username"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="48dp"
+        android:layout_marginBottom="16dp"
+        android:fontFamily="serif"
+        android:hint="Saisir le nom d'utilisateur"
+        android:inputType="text"
+        android:padding="10dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+
+
+    <!-- Mot de passe -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="Mot de passe"
+        android:textSize="16sp" />
+
+    <EditText
+        android:id="@+id/password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="48dp"
+        android:layout_marginBottom="16dp"
+        android:fontFamily="serif"
+        android:hint="Saisir le mot de passe"
+        android:inputType="textPassword"
+        android:padding="10dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+
+
+    <!-- Mot de passe oublié -->
+    <TextView
+        android:id="@+id/forgot_password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:layout_marginBottom="24dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:text="Mot de passe oublié ?"
+        android:textColor="@android:color/holo_blue_dark"
+        android:textSize="14sp"
+        android:paddingVertical="12dp"
+        android:minHeight="48dp" />
+
+
+    <!-- S'inscrire -->
+    <TextView
+        android:id="@+id/textViewSignUp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="12dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:text="S'inscrire"
+        android:textColor="#00A3EE"
+        android:textSize="16sp"
+        android:paddingVertical="12dp"
+        android:minHeight="48dp" />
+
+
+    <!-- Bouton Connexion -->
+    <Button
+        android:id="@+id/login_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#0388F4"
+        android:text="Se connecter" />
+
+</LinearLayout>

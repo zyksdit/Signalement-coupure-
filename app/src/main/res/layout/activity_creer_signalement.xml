@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/scrollView"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:background="#FFFFFF"
+    tools:context=".CreerSignalementActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:layout_gravity="center_horizontal">
+
+        <!-- Type de coupure -->
+        <TextView
+            android:id="@+id/textType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Type de coupure"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginTop="12dp" />
+
+        <RadioGroup
+            android:id="@+id/radioGroupType"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="8dp">
+
+            <RadioButton
+                android:id="@+id/radioEau"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Eau" />
+
+            <RadioButton
+                android:id="@+id/radioElectricite"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Électricité"
+                android:layout_marginStart="32dp" />
+        </RadioGroup>
+
+        <!-- Localisation -->
+        <TextView
+            android:id="@+id/textLocalisation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Localisation"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginTop="20dp" />
+
+        <com.google.android.gms.maps.MapView
+            android:id="@+id/mapView"
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            android:layout_marginTop="8dp" />
+
+        <!-- Ajouter une photo -->
+        <ImageButton
+            android:id="@+id/buttonAjouterPhoto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ajouter une photo"
+            android:layout_marginTop="16dp"
+            android:drawableLeft="@android:drawable/ic_menu_camera"
+            android:padding="8dp" />
+
+        <!-- Description -->
+        <TextView
+            android:id="@+id/textDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Description"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginTop="20dp" />
+
+        <EditText
+            android:id="@+id/editTextDescription"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:gravity="top|start"
+            android:background="@android:drawable/edit_text"
+            android:hint="Entrez une description"
+            android:padding="12dp"
+            android:inputType="textMultiLine"
+            android:maxLines="5"
+            android:layout_marginTop="8dp" />
+
+        <!-- Bouton Soumettre -->
+        <Button
+            android:id="@+id/buttonSoumettre"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Soumettre"
+            android:textColor="#FFFFFF"
+            android:backgroundTint="#1E88E5"
+            android:layout_marginTop="24dp"
+            android:paddingHorizontal="24dp"
+            android:paddingVertical="12dp"
+            android:layout_gravity="center_horizontal" />
+
+    </LinearLayout>
+</ScrollView>

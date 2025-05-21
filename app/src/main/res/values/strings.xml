@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">SignalementApp</string>
+    <string name="app_logo">Logo application</string>
+    <string name="open_drawer">Ouvrir le menu</string>
+    <string name="close_drawer">Fermer le menu</string>
+
+
+</resources>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#D3D3D3"
+    tools:context=".HomeActivity">
+
+    <!-- Bouton créer un signalement -->
+    <Button
+        android:id="@+id/creerSignalementButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="16dp"
+        android:text="CRÉER UN SIGNALEMENT" />
+
+    <!-- Carte Google Maps -->
+    <FrameLayout
+        android:id="@+id/map_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.4"
+        android:layout_marginTop="8dp" />
+
+    <!-- Fragment container pour le contenu en dessous de la carte -->
+    <FrameLayout
+        android:id="@+id/fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.4"
+        android:layout_marginTop="8dp" />
+
+    <!-- Boutons en bas -->
+    <LinearLayout
+        android:id="@+id/bottom_buttons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginTop="8dp"
+        android:padding="16dp">
+
+        <ImageButton
+            android:id="@+id/fullscreenButton"
+            android:layout_width="75dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:contentDescription="Plein écran"
+            android:scaleType="centerInside"
+            android:src="@drawable/fullscreen" />
+
+        <ImageButton
+            android:id="@+id/alertButton"
+            android:layout_width="7dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:contentDescription="Alerte"
+            android:scaleType="centerInside"
+            android:src="@drawable/alerte" />
+
+        <ImageButton
+            android:id="@+id/historyButton"
+            android:layout_width="139dp"
+            android:layout_height="41dp"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:contentDescription="Historique"
+            android:scaleType="centerInside"
+            android:src="@drawable/hist" />
+    </LinearLayout>
+</LinearLayout>
