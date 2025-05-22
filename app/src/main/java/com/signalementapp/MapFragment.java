@@ -4,22 +4,16 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import com.google.android.gms.maps.MapView;
-import com.google.android.gms.maps.MapsInitializer;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.*;
+import com.google.android.gms.maps.model.*;
 
 public class MapFragment extends Fragment implements OnMapReadyCallback {
 
-    private MapView mapView;
-    private GoogleMap googleMap;
+    private GoogleMap mMap;
 
     @Nullable
     @Override
@@ -28,42 +22,21 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_map_fragment, container, false);
 
-        mapView = view.findViewById(R.id.mapView); // ceci DOIT être un MapView dans le XML
-        mapView.onCreate(savedInstanceState);
-        mapView.getMapAsync(this);
+        FragmentManager fm = getChildFragmentManager();
+        SupportMapFragment mapFragment = (SupportMapFragment) fm.findFragmentById(R.id.google_map);
+        if (mapFragment != null) {
+            mapFragment.getMapAsync(this);
+        }
 
         return view;
     }
 
     @Override
-    public void onMapReady(@NonNull GoogleMap gMap) {
-        googleMap = gMap;
-        LatLng exemple = new LatLng(36.8065, 10.1815); // Tunis
-        googleMap.addMarker(new MarkerOptions().position(exemple).title("Coupure d'eau"));
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(exemple, 13f));
-    }
+    public void onMapReady(@NonNull GoogleMap googleMap) {
+        mMap = googleMap;
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (mapView != null) mapView.onResume();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        if (mapView != null) mapView.onPause();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        if (mapView != null) mapView.onDestroy();
-    }
-
-    @Override
-    public void onLowMemory() {
-        super.onLowMemory();
-        if (mapView != null) mapView.onLowMemory();
+        LatLng location = new LatLng(36.8065, 10.1815);
+        mMap.addMarker(new MarkerOptions().position(location).title("Exemple de coupure"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 12f));
     }
 }
