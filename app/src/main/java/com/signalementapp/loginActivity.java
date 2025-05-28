@@ -47,14 +47,14 @@ public class loginActivity extends AppCompatActivity {
             if (username.isEmpty() || password.isEmpty()) {
                 Toast.makeText(this, "Veuillez remplir tous les champs", Toast.LENGTH_SHORT).show();
             } else {
-                // Authentification simulée (à remplacer par un appel au back-end plus tard)
-                if (username.equals("admin") && password.equals("admin")) {
-                    // Connexion réussie
+
+                if (username.equals("amine.mz") && password.equals("123456")) {
+
                     Intent intent = new Intent(loginActivity.this, HomeActivity.class);
                     startActivity(intent);
-                    finish(); // Fermer la page de connexion
+                    finish();
                 } else {
-                    // Échec de la connexion
+
                     Toast.makeText(this, "Nom d'utilisateur ou mot de passe incorrect", Toast.LENGTH_SHORT).show();
                 }
             }

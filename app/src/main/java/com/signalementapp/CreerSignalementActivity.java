@@ -19,43 +19,51 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.signalementapp.models.Signalement;
+import com.signalementapp.network.ApiClient;
+import com.signalementapp.network.ApiService;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 public class CreerSignalementActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 100;
 
-    private FusedLocationProviderClient fusedLocationClient;
+    private MapView mapView;
     private GoogleMap mMap;
     private Marker currentMarker;
+    private FusedLocationProviderClient fusedLocationClient;
 
     private RadioGroup radioGroupType;
     private EditText editTextDescription;
     private ImageButton buttonAjouterPhoto;
     private Button buttonSoumettre;
 
+    private ApiService apiService;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_creer_signalement);
 
-        // Initialisation des vues
+        mapView = findViewById(R.id.mapView);
+        mapView.onCreate(savedInstanceState);
+        mapView.getMapAsync(this);
+
         radioGroupType = findViewById(R.id.radioGroupType);
         editTextDescription = findViewById(R.id.editTextDescription);
         buttonAjouterPhoto = findViewById(R.id.buttonAjouterPhoto);
         buttonSoumettre = findViewById(R.id.buttonSoumettre);
 
-        // Initialisation carte
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.mapView);
-        if (mapFragment != null) {
-            mapFragment.getMapAsync(this);
-        }
+        apiService = ApiClient.getClient().create(ApiService.class);
 
         buttonSoumettre.setOnClickListener(v -> {
             int selectedId = radioGroupType.getCheckedRadioButtonId();
@@ -65,8 +73,28 @@ public class CreerSignalementActivity extends AppCompatActivity implements OnMap
             LatLng position = (currentMarker != null) ? currentMarker.getPosition() : null;
 
             if (position != null) {
-                Toast.makeText(this, "Type: " + type + "\nDescription: " + description +
-                        "\nLatitude: " + position.latitude + "\nLongitude: " + position.longitude, Toast.LENGTH_LONG).show();
+                Signalement signalement = new Signalement(
+                        0, type, description,
+                        position.latitude, position.longitude,
+                        ""
+                );
+                apiService.creerSignalement(signalement).enqueue(new Callback<Void>() {
+                    @Override
+                    public void onResponse(Call<Void> call, Response<Void> response) {
+                        if (response.isSuccessful()) {
+                            Toast.makeText(CreerSignalementActivity.this, "Signalement envoyé avec succès", Toast.LENGTH_SHORT).show();
+                            finish();
+                        } else {
+                            Toast.makeText(CreerSignalementActivity.this, "Erreur d'envoi : " + response.code(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<Void> call, Throwable t) {
+                        Toast.makeText(CreerSignalementActivity.this, "Erreur réseau : " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+
             } else {
                 Toast.makeText(this, "Veuillez sélectionner une localisation", Toast.LENGTH_SHORT).show();
             }
@@ -77,7 +105,6 @@ public class CreerSignalementActivity extends AppCompatActivity implements OnMap
     public void onMapReady(@NonNull GoogleMap googleMap) {
         mMap = googleMap;
 
-        // Vérification permission
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
@@ -89,7 +116,6 @@ public class CreerSignalementActivity extends AppCompatActivity implements OnMap
 
         mMap.setMyLocationEnabled(true);
 
-        // Dernière position connue
         fusedLocationClient.getLastLocation()
                 .addOnSuccessListener(this, location -> {
                     if (location != null) {
@@ -98,8 +124,7 @@ public class CreerSignalementActivity extends AppCompatActivity implements OnMap
                     }
                 });
 
-        // Marqueur déplaçable
-        mMap.setOnMapClickListener(latLng -> moveMarker(latLng));
+        mMap.setOnMapClickListener(this::moveMarker);
     }
 
     private void moveMarker(LatLng latLng) {
@@ -115,14 +140,44 @@ public class CreerSignalementActivity extends AppCompatActivity implements OnMap
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
-        if (requestCode == LOCATION_PERMISSION_REQUEST_CODE) {
+        if (requestCode == LOCATION_PERMISSION_REQUEST_CODE){
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                onMapReady(mMap); // relancer la carte avec les permissions
+                mapView.getMapAsync(this);
             } else {
                 Toast.makeText(this, "Permission localisation refusée", Toast.LENGTH_SHORT).show();
             }
         }
     }
-}
 
+    // Gérer le cycle de vie de la MapView
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (mapView != null) mapView.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (mapView != null) mapView.onPause();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (mapView != null) mapView.onDestroy();
+    }
+
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+        if (mapView != null) mapView.onLowMemory();
+    }
+
+}
+/*
+
+
+
+
+ */
